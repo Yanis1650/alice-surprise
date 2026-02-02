@@ -26,18 +26,25 @@ yesBtn.addEventListener('click', function() {
     yesBtn.style.display = 'none';
     noBtn.style.display = 'none';
     
-    // Créer des particules de cœur
-    for (let i = 0; i < 20; i++) {
+    // Créer des particules de cœur (optimisé pour mobile)
+    for (let i = 0; i < particleCount; i++) {
         setTimeout(() => {
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
             createHeartParticle(x, y);
-        }, i * 100);
+        }, i * particleDelay);
     }
 });
 
-// Détecter si on est sur mobile
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+// Détecter si on est sur mobile (amélioré)
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                 window.innerWidth <= 768 || 
+                 ('ontouchstart' in window) || 
+                 (navigator.maxTouchPoints > 0);
+
+// Réduire les particules sur mobile pour de meilleures performances
+const particleCount = isMobile ? 10 : 20;
+const particleDelay = isMobile ? 150 : 100;
 
 // Quand on clique sur NON
 noBtn.addEventListener('click', function() {
@@ -69,19 +76,27 @@ noBtn.addEventListener('click', function() {
     
     // Sur mobile, limiter le mouvement du bouton NON pour qu'il reste visible
     if (isMobile) {
-        // Sur mobile, le bouton reste dans le container mais change de position
-        const containerRect = container.getBoundingClientRect();
-        const noBtnRect = noBtn.getBoundingClientRect();
-        const maxX = containerRect.width - noBtnRect.width - 20;
-        const maxY = containerRect.height - noBtnRect.height - 20;
-        
-        const randomX = Math.max(10, Math.min(maxX, Math.random() * maxX));
-        const randomY = Math.max(10, Math.min(maxY, Math.random() * maxY));
-        
-        noBtn.style.position = 'absolute';
-        noBtn.style.left = (containerRect.left + randomX) + 'px';
-        noBtn.style.top = (containerRect.top + randomY) + 'px';
-        noBtn.style.marginTop = '0';
+        // Sur mobile, le bouton reste dans le buttons-container
+        const buttonsContainer = document.querySelector('.buttons-container');
+        if (buttonsContainer) {
+            const containerRect = buttonsContainer.getBoundingClientRect();
+            const noBtnRect = noBtn.getBoundingClientRect();
+            
+            // Calculer les limites dans le container des boutons
+            const maxX = containerRect.width - noBtnRect.width - 5;
+            const maxY = containerRect.height - noBtnRect.height - 5;
+            
+            const randomX = Math.max(0, Math.min(maxX, Math.random() * maxX));
+            const randomY = Math.max(0, Math.min(maxY, Math.random() * maxY));
+            
+            // Positionner par rapport au buttons-container
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.marginTop = '0';
+            noBtn.style.marginLeft = '0';
+            noBtn.style.width = noBtnRect.width + 'px'; // Garder la largeur actuelle
+        }
     } else {
         // Sur desktop, comportement original
         const maxX = window.innerWidth - noBtn.offsetWidth - 20;

@@ -2,17 +2,24 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <meta name="format-detection" content="telephone=no">
     <title>Ma Valentine ❤️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
+        <div class="personal-touches">
+            <div class="personal-icon biocoop-icon">🥬🌱</div>
+            <div class="personal-icon gym-icon">💪🏋️</div>
+        </div>
         <div class="heart-animation">💕</div>
         <h1 class="question">Est-ce que tu veux être ma valentine ?</h1>
+        <p class="personal-message">Entre nos courses à Biocoop et nos séances à la salle, tu es déjà ma partenaire préférée ❤️</p>
         <div class="buttons-container">
             <button id="yesBtn" class="btn yes-btn">OUI ❤️</button>
             <button id="noBtn" class="btn no-btn">NON</button>
@@ -20,6 +27,7 @@
         <div id="celebration" class="celebration hidden">
             <h2>🎉 Yay ! 🎉</h2>
             <p>Tu es ma valentine ! ❤️💕</p>
+            <p class="celebration-details">On va faire de super séances ensemble et manger bio ! 🥬💪</p>
         </div>
     </div>
     <script src="script.js"></script>
